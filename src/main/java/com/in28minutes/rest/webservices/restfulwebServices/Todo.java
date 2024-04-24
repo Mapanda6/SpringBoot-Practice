@@ -64,4 +64,7 @@ public class Todo {
 	   this.isDone = isDone;
 	   
    }
+   protected Todo() {
+	   
+   }
 }

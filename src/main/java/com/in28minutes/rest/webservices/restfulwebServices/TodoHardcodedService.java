@@ -8,23 +8,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TodoHardcodedService {
-	private List<Todo> todos = null;
-	private int idCounter =0;
+	private static List<Todo> todos = new ArrayList<Todo>();
+	private static int idCounter =0;
+	static {
+		todos.add(new Todo(++idCounter, "Manisha", new Date(), "learn to Dance", false));
+		todos.add(new Todo(++idCounter,"Manisha", new Date(), "learn to Drive", false));
+		todos.add(new Todo(++idCounter, "Manisha", new Date(), "learn to Swim", false));
+		todos.add(new Todo(++idCounter, "Manisha", new Date(), "learn to Cook", false));
+	}
 	
 	public List<Todo> findAll(String username) {
-		todos = new ArrayList<Todo>();
-		idCounter =0;
-		todos.add(new Todo(++idCounter, username, new Date(), "learn to Dance", false));
-		todos.add(new Todo(++idCounter,username, new Date(), "learn to Drive", false));
-		todos.add(new Todo(++idCounter, username, new Date(), "learn to Swim", false));
-		todos.add(new Todo(++idCounter, username, new Date(), "learn to Cook", false));
+		
 		return todos;
 	}
-	public Todo deleteById(long id) {
+	public List<Todo> deleteById(long id) {
 		Todo todo = findById(id);
 		if (todo == null) return null;
 		if( todos.remove(todo)) {
-			return todo;
+			return todos;
 		};
 		return null;
 	}
@@ -37,6 +38,19 @@ public class TodoHardcodedService {
 		
 	}
 	return null;
+		
+	}
+	
+	public Todo save(Todo todo) {
+		if(todo.getId()==-1 || todo.getId()==0) {
+			todo.setId(++idCounter);
+			todos.add(todo);
+			
+		}else {
+			deleteById(todo.getId());
+			todos.add(todo);
+		}
+		return todo;
 		
 	}
 	
